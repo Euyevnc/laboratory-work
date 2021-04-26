@@ -1,0 +1,37 @@
+<html>
+  <head>
+    <title>Hub</title>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <img src="pc.png" id="pc" ondragstart="drag(event)"/>
+  
+    <img src="hub.png" id="hub" ondragstart="drag(event)"/>
+
+    <img src="rout.png" id="rout" ondragstart="drag(event)"/>
+
+    <img src="line.png" id="line" onclick="openline()"/>
+
+    <canvas id="canvas" width="1000" height="600" ondrop="drop(event)" ondragover="allowDrop(event)"></canvas>
+
+    <div class="menu" id="menu">
+      <div class="close" title="Закрыть" onclick="document.getElementById('menu').style.display = 'none';">x</div>
+      <input type="text" value="255.255.255.255"/>
+      <input type="text" value="192.168.0.1"/>
+      <div class="button">Сохранить</div>
+    </div>
+
+    <div class="lines" id="lines">
+      <div class="close" title="Закрыть" onclick="document.getElementById('lines').style.display = 'none';">x</div>
+      <select size="1" name="first" id="first">
+        <option disabled>Выберите устройство</option>
+      </select>
+      <select size="1" name="end" id="end">
+        <option disabled>Выберите устройство</option>
+      </select>
+      <div class="button" onclick="lines();">Соединить</div>
+    </div>
+    
+    <script src="index.js"></script>
+  </body>
+</html>
