@@ -37,10 +37,8 @@ canvas {
   position: absolute;
   width: 300px;
   height: 230px;
-  top: 50%;
-  left: 50%;
-  margin-left: -150px;
-  margin-top: -150px;
+  top: 10px;
+  right: 250px;
 }
 
 .menu > input {
@@ -97,10 +95,8 @@ canvas {
   position: absolute;
   width: 300px;
   height: 200px;
-  top: 50%;
-  left: 50%;
-  margin-left: -150px;
-  margin-top: -150px;
+  top: 250px;
+  right: 250px;
 }
 
 .lines > select {
