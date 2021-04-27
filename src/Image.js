@@ -13,14 +13,20 @@ class Image {
     this.connectedLines = []
   }
 
-  addLine( line ) {
-    if(this.type == 'hub' && this.connectedLines.length === 2) {
-      const lineToDelete = this.connectedLines[0]
-      this.connectedLines[0] = line
-
+  addLine( newLine ) {
+    let order = 0
+    this.connectedLines.forEach( (connectedLine, index) => {
+      if(connectedLine.isDeprecated === true) 
+      order = index
+      return
+    })
+    if(this.type !== 'pc' && this.connectedLines.length === 5) {
+      const lineToDelete = this.connectedLines[order]
       lineToDelete.isDeprecated = true
+
+      this.connectedLines.splice(order, 1, newLine)
     }
-    else this.connectedLines.push(line)
+    else this.connectedLines.push(newLine)
   }
 
   //Сеттеры далее нужны чтобы при перезаписи координат они, обработанные если нужно, передавались линиям
@@ -33,7 +39,7 @@ class Image {
     this.connectedLines.forEach((line, index) => {
       if (line.startImg == this) {
         line.x = this.type == "hub" 
-          ? (value + this.width/2 + 24 + index * 11) 
+          ? (value + this.width/2 - 11 + index * 11) 
           : this.type == "rout" 
           ? (value + this.width/2 - 33 + index * 13) 
           : value + this.width/2
@@ -41,7 +47,7 @@ class Image {
 
       else if (line.finishImg == this){
         line.fx = this.type == "hub" 
-        ? (value + this.width/2 + 24 + index * 11) 
+        ? (value + this.width/2 - 11 + index * 11) 
         : this.type == "rout" 
         ? (value + this.width/2 - 33 + index * 13) 
         : value + this.width/2

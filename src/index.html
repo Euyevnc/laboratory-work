@@ -12,13 +12,29 @@
 
       <img src="line.png" id="line"/>
     </span>
+
     <canvas id="canvas" width="1000" height="600"></canvas>
 
     <div class="menu" id="menu">
       <div class="close" title="Закрыть">x</div>
-      <input type="text" value="255.255.255.255"/>
-      <input type="text" value="192.168.0.1"/>
+      <input type="text" placeholder="Ip адрес"/>
+      <input type="text" placeholder="Маска подсети"/>
+      <input type="text" placeholder="Шлюз подсети"/>
       <div class="button">Сохранить</div>
     </div>
+
+    <div class="cmd" id="cmd">
+
+      <select size="1" name="first" id="cmd-start" placeholder = "dfds">
+        <option value="" disabled selected>Входное устройство</option>
+      </select>
+
+      <select size="1" name="end" id="cmd-end">
+        <option value="" disabled selected>Выходное устройство</option>
+      </select>
+
+     <div id="cmd-button" class="button">Тест</div>
+
+  </div>
   </body>
 </html>

@@ -88,29 +88,28 @@ canvas {
   display: none;
 }
 
-.lines {
+.cmd {
   z-index: 2;
   border-radius: 20px;
-  background-color: #fff;
+  background-color: transparent;
   position: absolute;
-  width: 300px;
+  width: 200px;
   height: 200px;
-  top: 250px;
-  right: 250px;
+  top: 10px;
+  right: 10px;
 }
 
-.lines > select {
+.cmd > select {
   position: relative;
-  width: 90%;
+  width: 100%;
   margin-top: 20px;
-  left: 5%;
   background-color: #e1e1e1;
-  padding: 10px;
+  padding: 5px;
   border-radius: 5px;
   border: 0px;
 }
 
-.lines > .button {
+.cmd > .button {
   margin-top: 20px;
   text-align: center;
   position: relative;
@@ -120,28 +119,10 @@ canvas {
   padding-top: 10px;
   padding-bottom: 10px;
   left: 5%;
-}
-
-.lines > .button:hover {
-  opacity: 0.8;
   cursor: pointer;
 }
 
-.lines > .close {
-  position: absolute;
-  right: 0px;
-  top: -10px;
-  background-color: red;
-  color: #fff;
-  padding-top: 2px;
-  padding-bottom: 2px;
-  padding-left: 5px;
-  padding-right: 5px;
-  width: 10px;
-  text-align: center;
-  border-radius: 20px;
-}
-
-#lines {
-  display: none;
+.cmds > .button:hover {
+  opacity: 0.8;
+  cursor: pointer;
 }

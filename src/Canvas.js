@@ -2,7 +2,7 @@ import Line from './Line'
 import Image from './Image'
 
 class Canvas {
-  constructor({ id, ondrop, ondragover, oncontextmenu } ) {
+  constructor({ id, imageObserver } ) {
     this.root = document.getElementById(id);
     this.context = this.root.getContext('2d');
 
@@ -10,10 +10,12 @@ class Canvas {
     this.imagesToDrow = [],
     this.linesToDrow = [],
 
-    this.root.addEventListener('mousedown', this.handlerCanvasMousedown);
     this.root.addEventListener('drop', this.handlerCanvasDrop);
-    this.root.addEventListener('dragover', ondragover);
-    this.root.addEventListener('contextmenu', oncontextmenu)
+    this.root.addEventListener('mousedown', this.handlerCanvasMousedown);
+    this.root.addEventListener('contextmenu', this.handleCanvasContext)
+    this.root.addEventListener('dragover', (event) => event.preventDefault(),);
+
+    this.imageObserver = imageObserver
   }
 
   handlerCanvasDrop = (event) => {
@@ -24,6 +26,11 @@ class Canvas {
       canvas: this.root,
       eventData: event
     })
+  }
+
+  handleCanvasContext(event) {
+    event.preventDefault()
+    document.getElementById("menu").style.display = "block";
   }
 
   handlerCanvasMousedown = (event) => {
@@ -73,7 +80,8 @@ class Canvas {
     const newImage = new Image(data)
     this.imagesToDrow.push(newImage)
     console.log(newImage)
-
+    
+    this.imageObserver(newImage)
     this.renderScene()
   }
 

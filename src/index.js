@@ -10,8 +10,7 @@ function handlerDOMloaded(){
 
   const canvasObject = new Canvas({
     id: 'canvas',
-    ondragover: (event) => event.preventDefault(),
-    oncontextmenu: handleCanvasContext
+    imageObserver: cmdUpdate
   });
 
   const canvas = canvasObject.root
@@ -30,6 +29,10 @@ function handlerDOMloaded(){
     document.getElementById('menu').style.display = 'none';
   })
 
+  document.querySelector('.menu .button').addEventListener("click", (e)=>{
+    document.getElementById('menu').style.display = 'none';
+  })
+
 
   function handlerImgDragstart(e){
     e.dataTransfer.setData("mouse_position_x",e.clientX - e.target.offsetLeft );
@@ -37,10 +40,45 @@ function handlerDOMloaded(){
     e.dataTransfer.setData("image_id", e.target.id);
   }
 
+  const cmd = {
+    root: document.getElementById("cmd"),
+    firstField: document.getElementById("cmd-start"),
+    secondField: document.getElementById("cmd-end"),
+    
+    button: document.getElementById("cmd-button")
+  }
 
-  function handleCanvasContext(event) {
-    event.preventDefault()
-    document.getElementById("menu").style.display = "block";
+  cmd.button.addEventListener('click', startTest)
+
+  function cmdUpdate( image ) {
+    const index = imagesToDrow.indexOf(image);
+    cmd.firstField.insertAdjacentHTML('beforeend', `<option value='${index}'> #${index+1}: ${image.type}</option>`)
+    cmd.secondField.insertAdjacentHTML('beforeend', `<option value='${index}'> #${index+1}: ${image.type}</option>`)
+  }
+
+  function startTest(){
+    const startNode = imagesToDrow[cmd.firstField.value]
+    const finishNode = imagesToDrow[cmd.secondField.value]    
+
+    const processed = []
+
+    console.log(iteration(startNode, finishNode))
+
+    function iteration(origin, goal){
+      processed.push(origin)
+      if (origin == goal) return true
+      let isConnect = false
+
+      origin.connectedLines.forEach((line) => {
+        if (processed.indexOf(line.startImg) == -1) {
+          isConnect = iteration( line.startImg, goal) 
+        }
+        else if(processed.indexOf(line.finishImg)  == -1) {
+          isConnect = iteration( line.finishImg, goal) 
+        }
+      })
+      return isConnect
+    }
   }
 }
 
