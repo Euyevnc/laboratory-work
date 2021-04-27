@@ -45,7 +45,8 @@ function handlerDOMloaded(){
     firstField: document.getElementById("cmd-start"),
     secondField: document.getElementById("cmd-end"),
     
-    button: document.getElementById("cmd-button")
+    button: document.getElementById("cmd-button"),
+    display: document.getElementById("cmd-display")
   }
 
   cmd.button.addEventListener('click', startTest)
@@ -59,24 +60,31 @@ function handlerDOMloaded(){
   function startTest(){
     const startNode = imagesToDrow[cmd.firstField.value]
     const finishNode = imagesToDrow[cmd.secondField.value]    
-
     const processed = []
 
-    console.log(iteration(startNode, finishNode))
+    const tetsResult = iteration(startNode, finishNode)
+
+    if(tetsResult) cmd.display.className = "cmd-display_positive"
+    else cmd.display.className = "cmd-display_negative"
+
 
     function iteration(origin, goal){
       processed.push(origin)
-      if (origin == goal) return true
-      let isConnect = false
 
+      if (origin == goal) return true
+
+      let isConnect = false
       origin.connectedLines.forEach((line) => {
+        if (line.isDeprecated) return
+
         if (processed.indexOf(line.startImg) == -1) {
-          isConnect = iteration( line.startImg, goal) 
+          isConnect = iteration( line.startImg, goal) || isConnect
         }
         else if(processed.indexOf(line.finishImg)  == -1) {
-          isConnect = iteration( line.finishImg, goal) 
+          isConnect = iteration( line.finishImg, goal) || isConnect
         }
       })
+
       return isConnect
     }
   }

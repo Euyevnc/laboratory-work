@@ -17,18 +17,18 @@
 
     <div class="menu" id="menu">
       <div class="close" title="Закрыть">x</div>
-      <input type="text" placeholder="Ip адрес"/>
-      <input type="text" placeholder="Маска подсети"/>
-      <input type="text" placeholder="Шлюз подсети"/>
+      <input type="text" placeholder="MAC=адрес"/>
+      <input type="text" placeholder="IP"/>
+      <input type="text" placeholder="Шлюз"/>
       <div class="button">Сохранить</div>
     </div>
 
     <div class="cmd" id="cmd">
 
-      <select size="1" name="first" id="cmd-start" placeholder = "dfds">
+      <select size="1" name="first" id="cmd-start">
         <option value="" disabled selected>Входное устройство</option>
       </select>
-
+      <div id = "cmd-display" class = "cmd-display"></div>
       <select size="1" name="end" id="cmd-end">
         <option value="" disabled selected>Выходное устройство</option>
       </select>

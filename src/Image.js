@@ -14,17 +14,21 @@ class Image {
   }
 
   addLine( newLine ) {
-    let order = 0
+    let deprecatedIndex
     this.connectedLines.forEach( (connectedLine, index) => {
       if(connectedLine.isDeprecated === true) 
-      order = index
+      deprecatedIndex = index
       return
     })
-    if(this.type !== 'pc' && this.connectedLines.length === 5) {
-      const lineToDelete = this.connectedLines[order]
-      lineToDelete.isDeprecated = true
-
-      this.connectedLines.splice(order, 1, newLine)
+    if (this.type !== 'pc' && this.connectedLines.length === 5) {
+      if(deprecatedIndex || deprecatedIndex == 0) {
+        this.connectedLines.splice(deprecatedIndex, 1, newLine)
+      } else {
+        const lineToDelete = this.connectedLines[0]
+        lineToDelete.isDeprecated = true
+        this.connectedLines.shift()
+        this.connectedLines.push(newLine)
+      }
     }
     else this.connectedLines.push(newLine)
   }
