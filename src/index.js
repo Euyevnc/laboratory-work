@@ -10,7 +10,6 @@ function handlerDOMloaded(){
 
   const canvasObject = new Canvas({
     id: 'canvas',
-    imageObserver: cmdUpdate
   });
 
   const canvas = canvasObject.root
@@ -33,6 +32,9 @@ function handlerDOMloaded(){
     document.getElementById('menu').style.display = 'none';
   })
 
+  document.querySelector('#cmd').addEventListener("input", cmdInputHandler)
+  document.querySelector('#cmd').addEventListener("keydown", cmdSubmitHandler)
+
 
   function handlerImgDragstart(e){
     e.dataTransfer.setData("mouse_position_x",e.clientX - e.target.offsetLeft );
@@ -40,53 +42,39 @@ function handlerDOMloaded(){
     e.dataTransfer.setData("image_id", e.target.id);
   }
 
-  const cmd = {
-    root: document.getElementById("cmd"),
-    firstField: document.getElementById("cmd-start"),
-    secondField: document.getElementById("cmd-end"),
+
+  function cmdInputHandler(e){
+    let newValue = e.target.value;
+    if(newValue[0] !== ">") newValue = ">" + newValue
+    newValue = newValue.replaceAll(/\n(?!>)/g, "\n>")
+    e.target.value = newValue
     
-    button: document.getElementById("cmd-button"),
-    display: document.getElementById("cmd-display")
   }
+  function cmdSubmitHandler(e){
+    let newValue = e.target.value;
+    if(e.key !== "Enter") return 
 
-  cmd.button.addEventListener('click', startTest)
+    let lastStringIndex = newValue.lastIndexOf("\n>") || 0
+    let lastString = newValue.substring(lastStringIndex+2)
 
-  function cmdUpdate( image ) {
-    const index = imagesToDrow.indexOf(image);
-    cmd.firstField.insertAdjacentHTML('beforeend', `<option value='${index}'> #${index+1}: ${image.type}</option>`)
-    cmd.secondField.insertAdjacentHTML('beforeend', `<option value='${index}'> #${index+1}: ${image.type}</option>`)
-  }
+    const comman = extractCommand(lastString)
+    const nodeNames = extractNodes(lastString)
 
-  function startTest(){
-    const startNode = imagesToDrow[cmd.firstField.value]
-    const finishNode = imagesToDrow[cmd.secondField.value]    
-    const processed = []
+    function findObjects(nodeNames){
 
-    const tetsResult = iteration(startNode, finishNode)
-
-    if(tetsResult) cmd.display.className = "cmd-display_positive"
-    else cmd.display.className = "cmd-display_negative"
-
-
-    function iteration(origin, goal){
-      processed.push(origin)
-
-      if (origin == goal) return true
-
-      let isConnect = false
-      origin.connectedLines.forEach((line) => {
-        if (line.isDeprecated) return
-
-        if (processed.indexOf(line.startImg) == -1) {
-          isConnect = iteration( line.startImg, goal) || isConnect
-        }
-        else if(processed.indexOf(line.finishImg)  == -1) {
-          isConnect = iteration( line.finishImg, goal) || isConnect
-        }
-      })
-
-      return isConnect
     }
+
+    function extractCommand( string ) {
+      let command = string.match(/\b\w*\b/)
+      return command[0]
+    }
+
+    function extractNodes( string ) {
+      let nodes = string.match(/\w#\d*/g)
+      return nodes
+    }
+
   }
+
 }
 

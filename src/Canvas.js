@@ -15,7 +15,6 @@ class Canvas {
     this.root.addEventListener('contextmenu', this.handleCanvasContext)
     this.root.addEventListener('dragover', (event) => event.preventDefault(),);
 
-    this.imageObserver = imageObserver
   }
 
   handlerCanvasDrop = (event) => {
@@ -81,7 +80,6 @@ class Canvas {
     this.imagesToDrow.push(newImage)
     console.log(newImage)
     
-    this.imageObserver(newImage)
     this.renderScene()
   }
 
