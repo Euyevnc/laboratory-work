@@ -57,23 +57,85 @@ function handlerDOMloaded(){
     let lastStringIndex = newValue.lastIndexOf("\n>") || 0
     let lastString = newValue.substring(lastStringIndex+2)
 
-    const comman = extractCommand(lastString)
-    const nodeNames = extractNodes(lastString)
+    const command = extractCommand(lastString)
+    const nodeIds = extractNodes(lastString)
 
-    function findObjects(nodeNames){
+    if (command !== "ping"){
+      e.target.value += "\n unknown command"
+      return
+    }
 
+    if(!nodeIds || !nodeIds[0] || !nodeIds[1]){
+      e.target.value += "\n two arguments expected"
+      return
+    }
+
+    const startObject = findObject(nodeIds[0])
+    const finishObject = findObject(nodeIds[1])
+
+    if(!startObject || !finishObject){
+      e.target.value += "\n No device found "
+      return
+    }
+
+    const areConected = connectionTest(startObject, finishObject)
+    if (areConected){
+      e.target.value += "\n Devices are connected"
+    } else e.target.value += "\n Devices are disconnected"
+
+    function findObject(nodeId){
+      const nodeType = nodeId.match(/\w+/)[0]
+      const nodeNumber = +nodeId.match(/\d+/)[0]
+      
+      let nodeOrder = 0
+      let node = null
+
+      imagesToDrow.forEach((image) => {
+        if (image.type !== nodeType) return
+        else nodeOrder += 1;
+
+        if (nodeNumber == nodeOrder) node = image
+      })
+      return node
     }
 
     function extractCommand( string ) {
-      let command = string.match(/\b\w*\b/)
-      return command[0]
+      let match = string.match(/\b\w*\b/)
+      let command = match ? match[0] : null
+      return command 
     }
 
     function extractNodes( string ) {
-      let nodes = string.match(/\w#\d*/g)
+      let nodes = string.match(/\w+#\d+/g)
       return nodes
     }
 
+  }
+
+  function connectionTest(start, final){  
+    const processed = []
+
+    const areConected = iterating(start, final)
+    return areConected
+
+    function iterating(origin, goal){
+      processed.push(origin)
+
+      if (origin == goal) return true
+
+      let isConnect = false
+      origin.connectedLines.forEach((line) => {
+        if (line.isDeprecated) return
+
+        if (processed.indexOf(line.startImg) == -1) {
+          isConnect = iterating( line.startImg, goal) || isConnect
+        }
+        else if(processed.indexOf(line.finishImg)  == -1) {
+          isConnect = iterating( line.finishImg, goal) || isConnect
+        }
+      })
+      return isConnect
+    }
   }
 
 }
