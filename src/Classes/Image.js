@@ -33,6 +33,32 @@ class Image {
     else this.connectedLines.push(newLine)
   }
 
+  connectionTest = (final) => {  
+    const processed = []
+
+    const areConected = iterating(this, final)
+    return areConected
+
+    function iterating(origin, goal){
+      processed.push(origin)
+
+      if (origin == goal) return true
+
+      let isConnect = false
+      origin.connectedLines.forEach((line) => {
+        if (line.isDeprecated) return
+
+        if (processed.indexOf(line.startImg) == -1) {
+          isConnect = iterating( line.startImg, goal) || isConnect
+        }
+        else if(processed.indexOf(line.finishImg)  == -1) {
+          isConnect = iterating( line.finishImg, goal) || isConnect
+        }
+      })
+      return isConnect
+    }
+  }
+
   //Сеттеры далее нужны чтобы при перезаписи координат они, обработанные если нужно, передавались линиям
   get x() {
     return this._x

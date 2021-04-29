@@ -2,7 +2,7 @@ import Line from './Line'
 import Image from './Image'
 
 class Canvas {
-  constructor({ id, imageObserver } ) {
+  constructor(id) {
     this.root = document.getElementById(id);
     this.context = this.root.getContext('2d');
 
