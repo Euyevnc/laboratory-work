@@ -2,6 +2,7 @@ import './styles.css'
 import Canvas from './Classes/Canvas'
 import Connector from './Classes/Connector'
 import Linebreaker from './Classes/Linebreaker'
+import Dispatcher from "./Classes/Dispatcher"
 import Cmd from './Classes/Cmd.js'
 
 document.addEventListener('DOMContentLoaded', handlerDOMloaded)
@@ -16,6 +17,8 @@ function handlerDOMloaded(){
 
   const linebreaker = new Linebreaker("linebreaker", canvasObject)
 
+  const dispatcher = new Dispatcher("menu", canvasObject)
+
   const cmd = new Cmd("cmd", canvasObject)
 
   document.querySelectorAll('.panel-for-icons img').forEach((img)=> {
@@ -23,17 +26,9 @@ function handlerDOMloaded(){
     else img.addEventListener('dragstart', handlerImgDragstart)
   })
 
-  document.querySelector('.menu .close').addEventListener("click", (e)=>{
-    document.getElementById('menu').style.display = 'none';
-  })
-
-  document.querySelector('.menu .button').addEventListener("click", (e)=>{
-    document.getElementById('menu').style.display = 'none';
-  })
-
   function handlerImgDragstart(e){
-    e.dataTransfer.setData("mouse_position_x",e.clientX - e.target.offsetLeft );
-    e.dataTransfer.setData("mouse_position_y",e.clientY - e.target.offsetTop  );
+    e.dataTransfer.setData("mouse_position_x", e.clientX - e.target.offsetLeft );
+    e.dataTransfer.setData("mouse_position_y", e.clientY - e.target.offsetTop  );
     e.dataTransfer.setData("image_id", e.target.id);
   }
 }

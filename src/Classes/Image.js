@@ -1,11 +1,16 @@
 class Image {
-  constructor({ image, canvas, eventData }) {
+  constructor({ image, canvasObject, eventData }) {
     this.image = image,
-    this.type = image.id
-    this.context = canvas.getContext('2d'),
+    this.context = canvasObject.context,
 
-    this._x = (eventData.clientX - canvas.offsetLeft - eventData.dataTransfer.getData("mouse_position_x")),
-    this._y = (eventData.clientY - canvas.offsetTop -  eventData.dataTransfer.getData("mouse_position_y")),
+    this.type = image.id
+    this.id = this.type + "#" + (canvasObject.imagesToDraw.filter( (image) => image.type === this.type).length + 1);
+    this.mask
+    this.gateway
+    this.ip
+
+    this._x = (eventData.clientX - canvasObject.root.offsetLeft - eventData.dataTransfer.getData("mouse_position_x")),
+    this._y = (eventData.clientY - canvasObject.root.offsetTop -  eventData.dataTransfer.getData("mouse_position_y")),
 
     this.width = image.offsetWidth,
     this.height = image.offsetHeight

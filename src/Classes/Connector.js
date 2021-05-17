@@ -1,5 +1,7 @@
 import Line from './Line'
 
+import isPointInRange from "../pure-functions/isPointInRange"
+
 class Connector {
   constructor(id, canvasObject) {
     this.image = document.getElementById(id)
@@ -22,11 +24,11 @@ class Connector {
   }
 
   handlerImageFirstSelect = (event) => {
-    const imagesToDrow = this.canvasObject.imagesToDrow
+    const imagesToDraw = this.canvasObject.imagesToDraw
     const downX = event.offsetX,
           downY = event.offsetY;
-    for(let index = 0, len = imagesToDrow.length; index < len; index++) {
-      const obj = imagesToDrow[index];
+    for(let index = 0, len = imagesToDraw.length; index < len; index++) {
+      const obj = imagesToDraw[index];
       if(isPointInRange(downX, downY, obj)) {
 
         this.currentConnecting.startDevice  = obj;
@@ -39,11 +41,11 @@ class Connector {
   }
 
   handlerImageSecondSelect = (event) => {
-    const imagesToDrow = this.canvasObject.imagesToDrow
+    const imagesToDraw = this.canvasObject.imagesToDraw
     const downX = event.offsetX,
           downY = event.offsetY;
-    for(let index = 0, len = imagesToDrow.length; index < len; index++) {
-      const obj = imagesToDrow[index];
+    for(let index = 0, len = imagesToDraw.length; index < len; index++) {
+      const obj = imagesToDraw[index];
       if( isPointInRange(downX, downY, obj) ) {
 
         if (obj !== this.currentConnecting.startDevice){
@@ -71,10 +73,6 @@ class Connector {
     this.image.style.opacity = '1'
 
   }
-}
-
-function isPointInRange(x, y, obj) {
-  return !(x < obj.x || x > obj.x + obj.width || y < obj.y || y > obj.y + obj.height);
 }
 
 export default Connector

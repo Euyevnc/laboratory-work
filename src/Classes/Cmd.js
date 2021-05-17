@@ -63,7 +63,7 @@ class Cmd {
     let nodeOrder = 0
     let node = null
 
-    this.canvasObject.imagesToDrow.forEach((image) => {
+    this.canvasObject.imagesToDraw.forEach((image) => {
       if (image.type !== nodeType) return
       else nodeOrder += 1;
 
