@@ -65,15 +65,25 @@ class Canvas {
   }
 
 
-  createLine (startIndex, finishIndex){
-    const startImg = this.imagesToDrow[startIndex];
-    const finishImg = this.imagesToDrow[finishIndex];
-
-    const newLine = new Line({ startImg, finishImg })
-    this.linesToDrow.push(newLine)
-
-    this.renderScene()
+  createLine (startDevice, finishDevice){
+    if(startDevice.connectedLines.length !==5 && finishDevice.connectedLines.length !==5){
+      const newLine = new Line({ startDevice, finishDevice })
+      this.linesToDrow.push(newLine)
+      this.renderScene()
+    }
   } 
+
+  deleteLine (firD, secD){
+    console.log(firD, secD)
+    firD.connectedLines.forEach((line) => {
+      if( line.startImg === secD || line.finishImg === secD ){
+        firD.connectedLines.splice( (firD.connectedLines.indexOf(line)), 1)
+        secD.connectedLines.splice( (secD.connectedLines.indexOf(line)), 1)
+        this.linesToDrow.splice( (this.linesToDrow.indexOf(line)), 1)
+      }
+    })
+    this.renderScene()
+  }
 
   createImage (data){
     const newImage = new Image(data)
@@ -104,7 +114,6 @@ class Canvas {
     if(linesToDrow.length) {
       for(let x = 0, len = linesToDrow.length; x < len; x++) {
         const line = linesToDrow[x];
-        if(line.isDeprecated) continue
         context.beginPath();
         context.moveTo(line.fx, line.fy);
         context.lineTo(line.x, line.y);

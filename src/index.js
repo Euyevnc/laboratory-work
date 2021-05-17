@@ -1,6 +1,7 @@
 import './styles.css'
 import Canvas from './Classes/Canvas'
 import Connector from './Classes/Connector'
+import Linebreaker from './Classes/Linebreaker'
 import Cmd from './Classes/Cmd.js'
 
 document.addEventListener('DOMContentLoaded', handlerDOMloaded)
@@ -11,13 +12,15 @@ function handlerDOMloaded(){
 
   const canvasObject = new Canvas("canvas");
 
-  const connector = new Connector("line", canvasObject)
+  const connector = new Connector("connector", canvasObject)
+
+  const linebreaker = new Linebreaker("linebreaker", canvasObject)
 
   const cmd = new Cmd("cmd", canvasObject)
 
   document.querySelectorAll('.panel-for-icons img').forEach((img)=> {
-    if (img.id !== "line") img.addEventListener('dragstart', handlerImgDragstart)
-    else  img.addEventListener('dragstart', (event) => event.preventDefault() )
+    if (img.id === "connector" || img.id === "linebreaker") img.addEventListener('dragstart', (event) => event.preventDefault() ) 
+    else img.addEventListener('dragstart', handlerImgDragstart)
   })
 
   document.querySelector('.menu .close').addEventListener("click", (e)=>{

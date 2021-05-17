@@ -1,14 +1,13 @@
 class Line {
-  constructor ({ startImg, finishImg }) {
-    this.startImg = startImg;
-    this.finishImg = finishImg;
+  constructor ({ startDevice , finishDevice }) {
+    this.startImg = startDevice;
+    this.finishImg = finishDevice;
 
     this.x 
     this.y 
     this.fx 
     this.fy 
 
-    this.isDeprecated = false
     this.connectAndSync()
   }
 

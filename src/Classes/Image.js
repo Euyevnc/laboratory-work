@@ -14,23 +14,7 @@ class Image {
   }
 
   addLine( newLine ) {
-    let deprecatedIndex
-    this.connectedLines.forEach( (connectedLine, index) => {
-      if(connectedLine.isDeprecated === true) 
-      deprecatedIndex = index
-      return
-    })
-    if (this.type !== 'pc' && this.connectedLines.length === 5) {
-      if(deprecatedIndex || deprecatedIndex == 0) {
-        this.connectedLines.splice(deprecatedIndex, 1, newLine)
-      } else {
-        const lineToDelete = this.connectedLines[0]
-        lineToDelete.isDeprecated = true
-        this.connectedLines.shift()
-        this.connectedLines.push(newLine)
-      }
-    }
-    else this.connectedLines.push(newLine)
+    this.connectedLines.push(newLine)
   }
 
   connectionTest = (final) => {  
