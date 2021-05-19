@@ -42,6 +42,7 @@ class Dispatcher {
     this.saveData(device);
     this.root.style.display = 'none';
     this.processingDevice = undefined
+    this.canvasObject.renderScene()
   }
 
   handlerCloseClick = () => {

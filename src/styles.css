@@ -132,6 +132,7 @@ canvas {
   color: black;
   opacity: 0;
   transition-duration: 1s;
+  display: none;
 }
 .error.active {
   opacity: 0.6;

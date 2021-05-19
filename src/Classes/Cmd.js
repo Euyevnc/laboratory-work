@@ -23,64 +23,54 @@ class Cmd {
     let lastString = newValue.substring(lastStringIndex+2)
 
     const command = this.#extractCommand(lastString)
-    const nodeIds = this.#extractNodes(lastString)
+    const IP = this.#extractIP(lastString)
 
     if (command !== "ping"){
       e.target.value += "\n unknown command"
       return
     }
 
-    if(!nodeIds || !nodeIds[0] || !nodeIds[1]){
-      e.target.value += "\n two arguments expected"
+    const startObject = this.canvasObject.selectedDevice
+    const finishObject = this.canvasObject.imagesToDraw.filter( (device) => device.ip === IP )[0]
+
+    if (!startObject){
+      e.target.value += "\n No entry point "
       return
     }
 
-    const startObject = this.#findObject(nodeIds[0])
-    const finishObject = this.#findObject(nodeIds[1])
+    if (!finishObject){
+      e.target.value += "\n No output point "
+      return
+    }
 
     if (startObject === finishObject){
       e.target.value += "\n Entry and output points are the same"
       return
     }
 
-    if(!startObject || !finishObject){
-      e.target.value += "\n No device found"
+    if (finishObject.type !== "pc") {
+      e.target.value += "\n Output point is incorrect"
       return
     }
 
-    const areConected = startObject.connectionTest(finishObject)
+    const areConnected = startObject.connectionTest(finishObject)
 
-    if (areConected){
-      e.target.value += "\n Devices are connected"
-    } else e.target.value += "\n Devices are disconnected"
+    if (areConnected){
+      e.target.value += `\n Ответ от ${finishObject.ip}: число байт = 32, время = ${20 + Math.round( Math.random() * 40)} мс, TTL = 53. Статистика ping для ${finishObject.ip}: пакетов отправлено: 1, получено: 1, потеряно 0 (0% потерь). Приблизительное время приёма/передачи в мс: ${20 + Math.round( Math.random() * 30)}`
+    } else e.target.value += `\n При проверки узла не удалось обнаружить узел ${finishObject.ip}. Проверьте имя узла и повторите попытку`
 
-  }
-
-  #findObject = (nodeId) => {
-    const nodeType = nodeId.match(/\w+/)[0]
-    const nodeNumber = +nodeId.match(/\d+/)[0]
-    
-    let nodeOrder = 0
-    let node = null
-
-    this.canvasObject.imagesToDraw.forEach((image) => {
-      if (image.type !== nodeType) return
-      else nodeOrder += 1;
-
-      if (nodeNumber == nodeOrder) node = image
-    })
-    return node
   }
 
   #extractCommand = ( string ) => {
-    let match = string.match(/\b\w*\b/)
-    let command = match ? match[0] : null
+    const match = string.match(/\b\w*\b/)
+    const command = match ? match[0] : null
     return command 
   }
 
-  #extractNodes = ( string ) => {
-    let nodes = string.match(/\w+#\d+/g)
-    return nodes
+  #extractIP = ( string ) => {
+    const match = string.match(/(\d+\.){3}\d+/)
+    const ip = match ? match[0] : null
+    return ip
   }
 }
 

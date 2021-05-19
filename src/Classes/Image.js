@@ -1,3 +1,5 @@
+import pingChecking from "../pure-functions/pingChecking"
+
 class Image {
   constructor({ image, canvasObject, eventData }) {
     this.image = image,
@@ -26,7 +28,10 @@ class Image {
     const processed = []
 
     const areConected = iterating(this, final)
-    return areConected
+
+    const sameSubnet = pingChecking(this, final)
+
+    return (areConected && sameSubnet)
 
     function iterating(origin, goal){
       processed.push(origin)
@@ -83,18 +88,14 @@ class Image {
 
     this.connectedLines.forEach((line) => {
       if (line.startImg == this) {
-        line.y = this.type == "hub" 
-          ? (value + this.height/1.4 - 2) 
-          : this.type == "rout"
-          ? (value + this.height/1.25 - 2)
+        line.y = this.type !== "pc" 
+          ? (value + this.height/1.4 - 3) 
           : value + this.height/2
       }
 
       else if (line.finishImg == this) {
-        line.fy = this.type == "hub" 
-        ? (value + this.height/1.4 - 2) 
-        : this.type == "rout"
-        ? (value + this.height/1.25 - 2)
+        line.fy = this.type !== "pc" 
+        ? (value + this.height/1.4 - 3) 
         : value + this.height/2
       }
     })

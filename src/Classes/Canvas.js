@@ -12,6 +12,8 @@ class Canvas {
     this.imagesToDraw = [],
     this.linesToDraw = [],
 
+    this.selectedDevice
+    
     this.root.addEventListener('drop', this.handlerCanvasDrop);
     this.root.addEventListener('dblclick', this.handlerCanvasDoubleClick)
     this.root.addEventListener('mousedown', this.handlerCanvasMousedown);
@@ -77,29 +79,28 @@ class Canvas {
 
 
   createLine (startDevice, finishDevice){
-    if(startDevice.connectedLines.length !==5 && finishDevice.connectedLines.length !==5){
-      const newLine = new Line({ startDevice, finishDevice })
-      this.linesToDraw.push(newLine)
-      this.renderScene()
-    }
+    const newLine = new Line({ startDevice, finishDevice })
+    this.linesToDraw.push(newLine)
+    this.renderScene()
   } 
 
   deleteLine (firD, secD){
-    console.log(firD, secD)
+    let haveCommonLine = false
     firD.connectedLines.forEach((line) => {
       if( line.startImg === secD || line.finishImg === secD ){
+        haveCommonLine = true
         firD.connectedLines.splice( (firD.connectedLines.indexOf(line)), 1)
         secD.connectedLines.splice( (secD.connectedLines.indexOf(line)), 1)
         this.linesToDraw.splice( (this.linesToDraw.indexOf(line)), 1)
       }
     })
-    this.renderScene()
+    if(haveCommonLine) this.renderScene()
+    else generateAlert("Нет общих соединений!")
   }
 
   createImage (data){
     const newImage = new Image(data)
     this.imagesToDraw.push(newImage)
-    console.log(newImage)
     
     this.renderScene()
   }
@@ -118,7 +119,13 @@ class Canvas {
       for(let x = 0, len = imagesToDraw.length; x < len; x++) {
         const image = imagesToDraw[x];
         if (image.type == "pc") continue
-        image.context.drawImage(image.image, image.x, image.y);
+        if (image.ip){
+          context.font = "15px Electrolize, Arial, sans-serif";
+          context.textAlign = "center"
+          context.fillStyle = "black"
+          context.fillText(image.ip, image.x + 128/2, image.y + 128);
+        }
+        context.drawImage(image.image, image.x, image.y);
       }
     }
 
@@ -144,6 +151,12 @@ class Canvas {
           context.arc(image.x + image.width/2, image.y + 60, 64, 0, 2 * Math.PI)
           context.fillStyle = "#009900"
           context.fill();
+        }
+        if (image.ip){
+          context.font = "15px Electrolize, Arial, sans-serif";
+          context.textAlign = "center"
+          context.fillStyle = "black"
+          context.fillText(image.ip, image.x + 128/2, image.y + 140);
         }
         context.drawImage(image.image, image.x, image.y);
       }

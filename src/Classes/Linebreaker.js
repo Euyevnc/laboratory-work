@@ -1,4 +1,5 @@
 import isPointInRange from "../pure-functions/isPointInRange"
+import generateAlert from "../pure-functions/generateAlert"
 
 class Linebreaker {
   constructor(id, canvasObject) {
@@ -8,7 +9,12 @@ class Linebreaker {
     this.canvas = canvasObject.root
 
     this.currentBreaking = { }
+
     this.image.addEventListener('click', this.handlerBreakerClick)
+  }
+
+  handlerDocClick = (ev) => {
+    if(ev.target !== this.canvas) this.complete()
   }
 
   handlerBreakerClick = () => {
@@ -19,6 +25,11 @@ class Linebreaker {
 
     this.canvas.style.cursor = 'cell';
     this.image.style.opacity = '0.2'
+
+    setTimeout(
+      () => document.addEventListener('click', this.handlerDocClick),
+      100
+    )
   }
 
   handlerImageFirstSelect = (event) => {
@@ -28,7 +39,10 @@ class Linebreaker {
     for(let index = 0, len = imagesToDraw.length; index < len; index++) {
       const obj = imagesToDraw[index];
       if(isPointInRange(downX, downY, obj)) {
-        if (!obj.connectedLines.length) return
+        if (!obj.connectedLines.length){
+          generateAlert("Не имеет подключений, которые можно разорвать!")
+          break
+        }
 
         this.currentBreaking.firstDevice  = obj;
         this.canvas.removeEventListener('click', this.handlerImageFirstSelect)
@@ -46,8 +60,14 @@ class Linebreaker {
     for(let index = 0, len = imagesToDraw.length; index < len; index++) {
       const obj = imagesToDraw[index];
       if( isPointInRange(downX, downY, obj) ) {
-        if (!obj.connectedLines.length) return;
-        if (obj === this.currentBreaking.firstDevice) return;
+        if (!obj.connectedLines.length){
+          generateAlert("Не имеет подключений, которые можно разорвать!")
+          break
+        }
+        if (obj === this.currentBreaking.firstDevice) {
+          generateAlert("Начальная и конечная точка разрыва соединения совпадают!")
+          break
+        };
         this.currentBreaking.secondDevice = obj;
         this.canvasObject.deleteLine( this.currentBreaking.firstDevice, this.currentBreaking.secondDevice )
         this.complete()
@@ -57,6 +77,7 @@ class Linebreaker {
   }
 
   complete = () => {
+    document.removeEventListener('click', this.handlerDocClick)
     this.canvas.removeEventListener('click', this.handlerImageFirstSelect);
     this.canvas.removeEventListener('click', this.handlerImageSecondSelect);
 

@@ -39,6 +39,7 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.11.2",
+    "ip-subnet-calculator": "^1.1.8",
     "npm-check-updates": "^11.5.1"
   }
 }
