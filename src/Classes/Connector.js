@@ -24,7 +24,7 @@ class Connector {
     this.image.style.opacity = '0.2'
 
     setTimeout(
-      () => document.addEventListener('click', this.handlerDocClick),
+      () => document.addEventListener('click', this.handlerDocClick, true),
       100
     )
   }
@@ -79,7 +79,7 @@ class Connector {
   }
 
   complete = () => {
-    document.removeEventListener('click', this.handlerDocClick)
+    document.removeEventListener('click', this.handlerDocClick, true)
     this.canvas.removeEventListener('click', this.handlerImageFirstSelect);
     this.canvas.removeEventListener('click', this.handlerImageSecondSelect);
 

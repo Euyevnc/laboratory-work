@@ -87,11 +87,12 @@ class Canvas {
   deleteLine (firD, secD){
     let haveCommonLine = false
     firD.connectedLines.forEach((line) => {
+      if (haveCommonLine) return
       if( line.startImg === secD || line.finishImg === secD ){
         haveCommonLine = true
-        firD.connectedLines.splice( (firD.connectedLines.indexOf(line)), 1)
-        secD.connectedLines.splice( (secD.connectedLines.indexOf(line)), 1)
-        this.linesToDraw.splice( (this.linesToDraw.indexOf(line)), 1)
+        firD.connectedLines.splice( (firD.connectedLines.indexOf(line)), 1);
+        secD.connectedLines.splice( (secD.connectedLines.indexOf(line)), 1);
+        this.linesToDraw.splice( (this.linesToDraw.indexOf(line)), 1);
       }
     })
     if(haveCommonLine) this.renderScene()
