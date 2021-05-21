@@ -2,6 +2,9 @@ import isPointInRange from "../pure-functions/isPointInRange"
 import generateAlert from "../pure-functions/generateAlert"
 
 class Linebreaker {
+  // Вот ровно то же самое, что коннектор, только наоборот.
+  // Да их можно было бы вообще одним объектом сделать, просто бы методы канваса разные вызывали
+  // В остальном - то код такой же. Но ООП, наверное другое мнение на этот счёт имеет. 
   constructor(id, canvasObject) {
     this.image = document.getElementById(id)
 

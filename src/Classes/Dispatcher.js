@@ -2,6 +2,12 @@ import generateAlert from "../pure-functions/generateAlert"
 import isPointInRange from "../pure-functions/isPointInRange"
 
 class Dispatcher {
+  // Содержит элементы и функционал всплывающего окна
+  // название методов само за себя говорит, вообще есть спорный момент
+  // с назначением отсюда обработчика объекту канваса, (this.canvasObject.root.addEventListener('contextmenu', this.handleCanvasContext)) 
+  // хотя, работает так как надо, но это, типо, нарушает принцип инкапсуляции. Но вообще это проект небольшой, так что лучше прописать так
+  // чем добавлять API типо обсерверов, 
+
   constructor (id, canvasObject) {
     this.root = document.getElementById(id)
     this.canvasObject = canvasObject

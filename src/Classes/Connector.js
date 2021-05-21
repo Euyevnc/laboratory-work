@@ -4,6 +4,11 @@ import isPointInRange from "../pure-functions/isPointInRange"
 import generateAlert from "../pure-functions/generateAlert"
 
 class Connector {
+  //  Объект этого "шнура", чёрного. Просто реализовывет поочеррёдный выбор двух девайсов-иконок (методы handlerImageFirstSelect и 
+  //   handlerImageSecondSelect, соответственно) вызывает метод канваса
+  //  который уже работает с массивами. Генерирует алерты, когда нельзя реализовать выбор. Мб этим стоило бы занятся канвасу
+  // но тогда бы пришлось сбрасывать коннектор при каждом вызове его метода, что не совсем ожидаемое поведение.
+  // 
   constructor(id, canvasObject) {
     this.image = document.getElementById(id)
 
@@ -30,10 +35,6 @@ class Connector {
       },
       100
     )
-  }
-
-  handlerDocClick = (ev) => {
-    if(ev.target !== this.canvas) this.complete()
   }
 
   handlerImageFirstSelect = (event) => {
@@ -79,6 +80,10 @@ class Connector {
         break
       } 
     } 
+  }
+
+  handlerDocClick = (ev) => {
+    if(ev.target !== this.canvas) this.complete()
   }
 
   complete = () => {

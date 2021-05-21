@@ -5,6 +5,10 @@ import isPointInRange from "../pure-functions/isPointInRange"
 import generateAlert from "../pure-functions/generateAlert"
 
 class Canvas {
+  // В классе хранятся обработчики для событий холста, клик, передвижение мыши, вызов контекстного меню, а так же всё, что нужно на нём отрисовывать,
+  // то есть массивы объектов иконок и линий (imagesToDraw, linesToDraw), ну и API для работы с непосредственно массивами (не с отдельными линиями и иконками)
+  // и конечно, сама функция рендеринга, renderScene. Она перебирает эти массивы и отрисовывает элементы в них на основании их свойст, x, y и т.д. 
+
   constructor(id) {
     this.root = document.getElementById(id);
     this.context = this.root.getContext('2d');
@@ -71,8 +75,8 @@ class Canvas {
     }
 
     canvas.onmouseup = () => {
-        canvas.onmousemove = function(){};
-        canvas.onmouseup = function(){}
+        canvas.onmousemove = null;
+        canvas.onmouseup = null
     }
 
   }
@@ -113,7 +117,6 @@ class Canvas {
     const imagesToDraw = this.imagesToDraw
     const linesToDraw = this.linesToDraw
 
-    // requestAnimationFrame(renderScene);
     context.clearRect(0 , 0, canvas.width, canvas.height);
 
     if (imagesToDraw.length) {
