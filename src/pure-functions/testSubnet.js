@@ -6,7 +6,7 @@ export default function visionChecking(entryIP, mask, goalIP) {
   const subnetData = IpSubnetCalculator.calculateCIDRPrefix( entryIP, mask )
   const rangeMin = subnetData.ipLowStr.split(".").map((el) => Number(el))
   const rangeMax = subnetData.ipHighStr.split(".").map((el) => Number(el)) 
-  console.log(subnetData)
+  console.log(`IP адрес сети: ${subnetData.ipLowStr}, Широковещательный адрес: ${subnetData.ipHighStr}`)
   let result = true 
   goalIP.split(".").map((el) => Number(el)).forEach((noda, index) => {
     if(!(noda >= rangeMin[index] && noda <= rangeMax[index])) result = false

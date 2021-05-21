@@ -1,3 +1,4 @@
+import generateAlert from "../pure-functions/generateAlert"
 import isPointInRange from "../pure-functions/isPointInRange"
 
 class Dispatcher {
@@ -58,7 +59,9 @@ class Dispatcher {
     for(let x = 0, len = images.length; x < len; x++) {
       const obj = images[x];
       if(isPointInRange(downX, downY, obj)) {
-        this.displayDispatcher(obj)
+        if(obj.type === 'hub') break 
+        if(obj.type === 'rout') generateAlert("under constraction")
+        if(obj.type === 'pc') this.displayDispatcher(obj)
       } 
     }
   }

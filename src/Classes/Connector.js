@@ -17,14 +17,17 @@ class Connector {
   handlerConnectorClick = () => {
     this.canvas.addEventListener('click', this.handlerImageFirstSelect);
 
-    this.image.addEventListener('click', this.complete);
     this.image.removeEventListener('click', this.handlerConnectorClick);
 
     this.canvas.style.cursor = 'cell';
     this.image.style.opacity = '0.2'
 
     setTimeout(
-      () => document.addEventListener('click', this.handlerDocClick, true),
+      () => {
+        document.addEventListener('click', this.handlerDocClick)
+        this.canvas.style.cursor = 'cell';
+        this.image.style.opacity = '0.2'
+      },
       100
     )
   }
@@ -79,13 +82,12 @@ class Connector {
   }
 
   complete = () => {
-    document.removeEventListener('click', this.handlerDocClick, true)
+    document.removeEventListener('click', this.handlerDocClick)
     this.canvas.removeEventListener('click', this.handlerImageFirstSelect);
     this.canvas.removeEventListener('click', this.handlerImageSecondSelect);
 
     this.currentConnecting = { };
     this.image.addEventListener('click', this.handlerConnectorClick);
-    this.image.removeEventListener('click', this.complete)
 
     this.canvas.style.cursor = 'auto';
     this.image.style.opacity = '1'
