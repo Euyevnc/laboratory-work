@@ -70,8 +70,8 @@ class Cmd {
     const areConnected = startObject.connectionTest(finishObject)
 
     if (areConnected){
-      e.target.value += `\nОтвет от ${finishObject.ip}: число байт = 32, время = ${20 + Math.round( Math.random() * 40)} мс, TTL = 53.\nСтатистика ping для ${finishObject.ip}:\nпакетов отправлено: 1, получено: 1, потеряно 0 (0% потерь). Приблизительное время приёма/передачи в мс: ${20 + Math.round( Math.random() * 30)}`
-    } else e.target.value += `\nПри проверке связи не удалось обнаружить узел ${finishObject.ip}. Проверьте имя узла и повторите попытку.`
+      e.target.value += `\nОтвет от ${finishObject.ip}: число байт = 32, время = ${20 + Math.round( Math.random() * 40)} мс, TTL = 53.\nСтатистика ping для ${finishObject.ip}:\nПакетов отправлено: 1, получено: 1, потеряно 0 (0% потерь).\nПриблизительное время приёма/передачи в мс: ${20 + Math.round( Math.random() * 30)}`
+    } else e.target.value += `\nПри проверке связи не удалось обнаружить узел ${finishObject.ip}. \nПроверьте имя узла и повторите попытку.`
 
   }
 
