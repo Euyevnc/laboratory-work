@@ -13,15 +13,25 @@ class Cmd {
   }
 
   #cmdInputHandler = (e) => {
-    let newValue = e.target.value;
-    if(newValue[0] !== ">") newValue = ">" + newValue
-    newValue = newValue.replaceAll(/\n(?!>)/g, "\n>")
-    e.target.value = newValue
+    //функция - обработчик события для ввода (срабатывает когда вводится любой символ). Она следит за указателем ">",
+    // что бы он был на нужнйо строке
+    const value = e.target.value;
+    let newValue = value.replaceAll(/\n>/g, '\n')
+    
+    const matches = newValue.split('\n')
+    if (matches.length > 1) {
+      const lastMatch = matches.pop()
+      newValue = matches.join('\n') + '\n>' + lastMatch
+      newValue = newValue.replace(/^\>/, '')
+
+      e.target.value = newValue
+    }
   }
 
   #cmdSubmitHandler = (e) => {
-    let newValue = e.target.value;
+    // обработчик запускается при нажатии любой клавиши в cmd, но обрабатывает только Enter, иначе прерывает выполнениие на первой строке
     if(e.key !== "Enter") return 
+    let newValue = e.target.value;
 
     let lastStringIndex = newValue.lastIndexOf("\n>") || 0
     let lastString = newValue.substring(lastStringIndex+2)
@@ -38,30 +48,30 @@ class Cmd {
     const finishObject = this.canvasObject.imagesToDraw.filter( (device) => device.ip === IP )[0]
 
     if (!startObject){
-      e.target.value += "\n No entry point "
+      e.target.value += "\nNo entry point "
       return
     }
 
     if (!finishObject){
-      e.target.value += "\n No output point "
+      e.target.value += "\nNo output point "
       return
     }
 
     if (startObject === finishObject){
-      e.target.value += "\n Entry and output points are the same"
+      e.target.value += "\nEntry and output points are the same"
       return
     }
 
     if (finishObject.type !== "pc") {
-      e.target.value += "\n Output point is incorrect"
+      e.target.value += "\nOutput point is incorrect"
       return
     }
 
     const areConnected = startObject.connectionTest(finishObject)
 
     if (areConnected){
-      e.target.value += `\n Ответ от ${finishObject.ip}: число байт = 32, время = ${20 + Math.round( Math.random() * 40)} мс, TTL = 53. Статистика ping для ${finishObject.ip}: пакетов отправлено: 1, получено: 1, потеряно 0 (0% потерь). Приблизительное время приёма/передачи в мс: ${20 + Math.round( Math.random() * 30)}`
-    } else e.target.value += `\n При проверки узла не удалось обнаружить узел ${finishObject.ip}. Проверьте имя узла и повторите попытку`
+      e.target.value += `\nОтвет от ${finishObject.ip}: число байт = 32, время = ${20 + Math.round( Math.random() * 40)} мс, TTL = 53.\nСтатистика ping для ${finishObject.ip}:\nпакетов отправлено: 1, получено: 1, потеряно 0 (0% потерь). Приблизительное время приёма/передачи в мс: ${20 + Math.round( Math.random() * 30)}`
+    } else e.target.value += `\nПри проверке связи не удалось обнаружить узел ${finishObject.ip}. Проверьте имя узла и повторите попытку.`
 
   }
 
